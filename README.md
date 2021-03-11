@@ -1,4 +1,4 @@
-MineSweeper auto solver :D
+MineSweeper auto solver :D \n
 from https://yandex.ru/games/play/97011
 more information in comments inside code
 
