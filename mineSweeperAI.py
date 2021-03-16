@@ -7,23 +7,6 @@ import time
 from random import randint
 import sys
 
-# тут ищем конец игры (переделать, искать по всему экрану)
-game_over_region = (595, 180, 625, 216)
-# тут ищем новую игру (переделать, искать по всему экрану)
-new_game_region = (82, 95, 885, 130)
-# здесь координаты игрового поля (сделать авто распознование)
-game_coords = (396+4, 204+4, 1443-395-8, 1070-204-8)
-bombs = 999  # количество бомб - переделать - сделать скан с игры
-cells_x = 40  # количество клеток по X (сделать скан с поля)
-cells_y = 33  # количество клето по Y (сделать скан с поля)
-
-
-cell_width = 26  # ширина клеток (справедливо для яндекс сапёра)
-# генерируем матрицу поля, значение -1 это закрытая клетка
-game_field = [[-1] * cells_y for _ in range(cells_x)]
-
-
-# pyautogui.PAUSE = 0.1 # выставляет пазу между действиями через pyautogui
 
 
 def start_click(game_field):  # на доделку будем сюда передвать матрицу
@@ -335,60 +318,81 @@ def rule3(game_field):
 
 
 """ погнали саму прогу """
+if __name__ == "__main__":
+    # тут ищем конец игры (переделать, искать по всему экрану)
+    game_over_region = (595, 180, 625, 216)
+    # тут ищем новую игру (переделать, искать по всему экрану)
+    new_game_region = (82, 95, 885, 130)
+    # здесь координаты игрового поля (сделать авто распознование)
+    game_coords = (396+4, 204+4, 1443-395-8, 1070-204-8)
+    bombs = 999  # количество бомб - переделать - сделать скан с игры
+    cells_x = 40  # количество клеток по X (сделать скан с поля)
+    cells_y = 33  # количество клето по Y (сделать скан с поля)
 
-# переключаемся альт табом в окно с сапёром
-pyautogui.hotkey('alt', 'tab')
-# поспим, на всякий случай чтоб сильно быстро не переключаться
-time.sleep(0.5)
 
-# нажмём новую игру
-pyautogui.click('./img/new_game.png')
-time.sleep(1)
-# воткнём случайный клик
-start_click(game_field)
+    cell_width = 26  # ширина клеток (справедливо для яндекс сапёра)
+    # генерируем матрицу поля, значение -1 это закрытая клетка
+    game_field = [[-1] * cells_y for _ in range(cells_x)]
 
-# погнали крутить цикл
-runing = True
-while runing:
-    # win = pyautogui.locateOnScreen('./img/win.png', grayscale=True) - через эту шляпу пипец долго.. лучше через getpixel
-    img = pyautogui.screenshot()
-    x_get_pix = 608
-    y_get_pix = 201
-    # (0, 128, 0) = цвет победы :)
-    # (255, 64, 56) = цвет поражения :(
-    pix = img.getpixel((x_get_pix, y_get_pix))
 
-    # win = pyautogui.locateOnScreen('./img/win.png', grayscale=True)
-    # pyautogui.hotkey('alt', 'tab')
-    
-    if pix == (0, 128, 0):
-        print('Ура победа!!!!, заново, победим опять!')
-        pyautogui.click('./img/new_game.png')
-        time.sleep(1)
-        game_field = [[-1] * cells_y for _ in range(cells_x)]
-        start_click(game_field)        
-        # runing = False
-        continue
-    else:
+    # pyautogui.PAUSE = 0.1 # выставляет пазу между действиями через pyautogui
+    # переключаемся альт табом в окно с сапёром
+    pyautogui.hotkey('alt', 'tab')
+    # поспим, на всякий случай чтоб сильно быстро не переключаться
+    time.sleep(0.5)
+
+    # нажмём новую игру
+    pyautogui.click('./img/new_game.png')
+    time.sleep(1)
+    # воткнём случайный клик
+    start_click(game_field)
+
+    # погнали крутить цикл
+    runing = True
+    while runing:
+        # win = pyautogui.locateOnScreen('./img/win.png', grayscale=True) - через эту шляпу пипец долго.. лучше через getpixel
+        img = pyautogui.screenshot()
+        x_get_pix = 608
+        y_get_pix = 210
+        # (0, 128, 0) = цвет победы :)
+        # (255, 0, 0) = цвет поражения :(
+        pix = img.getpixel((x_get_pix, y_get_pix))
+
+        # win = pyautogui.locateOnScreen('./img/win.png', grayscale=True)
         # pyautogui.hotkey('alt', 'tab')
-        # loose = pyautogui.locateOnScreen('./img/game_over.png', grayscale=True)
-        # pyautogui.hotkey('alt', 'tab')
-        if pix == (255, 64, 56):
-            print('Заново, проиграли :(')
+        
+        if pix == (0, 128, 0):
+            print('Ура победа!!!!, заново, победим опять!')
             pyautogui.click('./img/new_game.png')
             time.sleep(1)
             game_field = [[-1] * cells_y for _ in range(cells_x)]
-            start_click(game_field)
+            start_click(game_field)        
+            # runing = False
+            continue
+        else:
+            # pyautogui.hotkey('alt', 'tab')
+            # loose = pyautogui.locateOnScreen('./img/game_over.png', grayscale=True)
+            # pyautogui.hotkey('alt', 'tab')
+            if pix == (255, 0, 0):
+                print('Заново, проиграли :(')
+                pyautogui.click('./img/new_game.png')
+                time.sleep(1)
+                game_field = [[-1] * cells_y for _ in range(cells_x)]
+                start_click(game_field)
 
-    count_action = 0
-    count_action = rule1(game_field)
-    count_action += rule2(game_field)
-    if count_action == 0:
-        count_action += rule3(game_field)
+        count_action = 0
+        count_action = rule1(game_field)
+        count_action += rule2(game_field)
+        # if count_action == 0:
+        #     count_action += rule3(game_field)
+        #     if count_action == 0:
+        #         start_click(game_field)
+        #         continue
         if count_action == 0:
             start_click(game_field)
             continue
+        
 
 
-pyautogui.hotkey('alt', 'tab')
-print_matrix(game_field)
+    pyautogui.hotkey('alt', 'tab')
+    print_matrix(game_field)
