@@ -140,7 +140,7 @@ def open_in_game_field(game_field, x, y):
         y_mark = game_coords[1] + (y)*cell_width + 15
         pyautogui.click(x=x_mark, y=y_mark)
         # подождём, пока всё откроется
-        # time.sleep(0.05)
+        time.sleep(1.05)
         # по идее надо перескинировать матрицу
         screenshot_to_matrix(game_field)
 
@@ -324,7 +324,7 @@ if __name__ == "__main__":
     # тут ищем новую игру (переделать, искать по всему экрану)
     new_game_region = (82, 95, 885, 130)
     # здесь координаты игрового поля (сделать авто распознование)
-    game_coords = (396+4, 204+4, 1443-395-8, 1070-204-8)
+    game_coords = (396, 215, 1443-395, 1070-205)
     bombs = 999  # количество бомб - переделать - сделать скан с игры
     cells_x = 40  # количество клеток по X (сделать скан с поля)
     cells_y = 33  # количество клето по Y (сделать скан с поля)
@@ -346,6 +346,10 @@ if __name__ == "__main__":
     time.sleep(1)
     # воткнём случайный клик
     start_click(game_field)
+    # time.sleep(2)
+    print_matrix(game_field)
+    # sys.exit()
+
 
     # погнали крутить цикл
     runing = True
@@ -388,10 +392,7 @@ if __name__ == "__main__":
         #     if count_action == 0:
         #         start_click(game_field)
         #         continue
-        if count_action == 0:
-            start_click(game_field)
-            continue
-        
+
 
 
     pyautogui.hotkey('alt', 'tab')
