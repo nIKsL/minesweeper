@@ -1,3 +1,9 @@
+17.03.2021 - game change interface...
+RIP gamefield recognize...
+need to do it again
+new fonts... new positions... sad story
+
+
 MineSweeper auto solver :D  
 from https://yandex.ru/games/play/97011  
 more information in comments inside code  
